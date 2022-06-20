@@ -45,8 +45,14 @@ export class LoginComponent implements OnInit {
     },
   };
   loginForm = this.formBuilder.group({
-    userName: ['', [Validators.required]],
-    password: ['', [Validators.required]],
+    userName: ['', [
+      Validators.required, 
+      Validators.minLength(ValidationConstant.login.username.minLength), 
+      Validators.maxLength(ValidationConstant.login.username.maxLength)]],
+    password: ['', [
+      Validators.required,
+      Validators.minLength(ValidationConstant.login.password.minLength), 
+      Validators.maxLength(ValidationConstant.login.password.maxLength)]],
   });
 
   constructor(
@@ -82,6 +88,8 @@ export class LoginComponent implements OnInit {
   login() {
     this.validator.validateAllFormFields(this.loginForm);
     this.formErrors = this.validator.validate(this.loginForm);
+    console.log('errors', this.formErrors);
+    
     if (this.loginForm.invalid) {
       return;
     }
